@@ -1,0 +1,24 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binaries
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (uncomment below to include vendor/ in Git)
+# vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# IDE-related ignore files and directories
+.idea/
+.vscode/
+*.swp
