@@ -1,9 +1,7 @@
-GET http://localhost:3000?name=jeff
-
-###
-
-POST http://localhost:3000
+POST http://localhost:3000/
 
 {
-    "name": "mouse"
+    "name": "mou",
+    "content": "change password",
+    "emails": ["teste@email.com"]
 }
