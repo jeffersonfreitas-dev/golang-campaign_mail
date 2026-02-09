@@ -1,7 +1,11 @@
 POST http://localhost:3000/
 
 {
-    "name": "mou",
+    "name": "moudddddddd",
     "content": "change password",
     "emails": ["teste@email.com"]
 }
+
+###
+
+GET http://localhost:3000/
