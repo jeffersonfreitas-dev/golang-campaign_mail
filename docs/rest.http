@@ -1,7 +1,7 @@
 POST http://localhost:3000/
 
 {
-    "name": "moudddddddd",
+    "name": "mou",
     "content": "change password",
     "emails": ["teste@email.com"]
 }
