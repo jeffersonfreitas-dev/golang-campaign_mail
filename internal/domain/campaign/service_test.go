@@ -28,7 +28,7 @@ var (
 		Content: "Body mail",
 		Emails:  []string{"teste@email.com", "email@teste.com"},
 	}
-	service = Service{}
+	service = ServiceImpl{}
 )
 
 func Test_Create_Campaign(t *testing.T) {

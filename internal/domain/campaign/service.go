@@ -5,11 +5,15 @@ import (
 	"campainmail/internal/exceptions"
 )
 
-type Service struct {
+type Service interface {
+	Create(newCampaign contract.NewCampaign) (string, error)
+}
+
+type ServiceImpl struct {
 	Repository Repository
 }
 
-func (s *Service) Create(newCampaign contract.NewCampaign) (string, error) {
+func (s *ServiceImpl) Create(newCampaign contract.NewCampaign) (string, error) {
 
 	campaign, err := Create(newCampaign.Name, newCampaign.Content, newCampaign.Emails)
 
