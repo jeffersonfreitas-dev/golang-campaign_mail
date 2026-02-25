@@ -2,6 +2,7 @@ package campaign
 
 import (
 	"campainmail/internal/contract"
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -23,7 +24,13 @@ func (r *repositoryMock) Get() ([]Campaign, error) {
 }
 
 func (r *repositoryMock) GetById(id string) (*Campaign, error) {
-	return nil, nil
+	args := r.Called(id)
+
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+
+	return args.Get(0).(*Campaign), args.Error(1)
 }
 
 var (
@@ -70,4 +77,30 @@ func Test_Create_SaveCampaign(t *testing.T) {
 	service.Create(newCampaign)
 
 	repositoryMock.AssertExpectations(t)
+}
+
+func Test_GetById_ReturnCampaign(t *testing.T) {
+	assert := assert.New(t)
+	camp, _ := Create(newCampaign.Name, newCampaign.Content, newCampaign.Emails)
+	repositoryMock := new(repositoryMock)
+	repositoryMock.On("GetById", mock.MatchedBy(func(id string) bool {
+		return id == camp.ID
+	})).Return(camp, nil)
+	service.Repository = repositoryMock
+
+	campaign, _ := service.GetById(camp.ID)
+	assert.Equal(camp.ID, campaign.ID)
+	assert.Equal(camp.Name, campaign.Name)
+	assert.Equal(camp.Content, campaign.Content)
+}
+
+func Test_GetById_ReturnErrorWhenWrong(t *testing.T) {
+	assert := assert.New(t)
+	camp, _ := Create(newCampaign.Name, newCampaign.Content, newCampaign.Emails)
+	repositoryMock := new(repositoryMock)
+	repositoryMock.On("GetById", mock.Anything).Return(nil, errors.New("error"))
+	service.Repository = repositoryMock
+
+	_, err := service.GetById(camp.ID)
+	assert.NotNil(err)
 }
