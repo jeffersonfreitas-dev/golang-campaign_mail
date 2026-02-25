@@ -22,6 +22,10 @@ func (r *repositoryMock) Get() ([]Campaign, error) {
 	return nil, nil
 }
 
+func (r *repositoryMock) GetById(id string) (*Campaign, error) {
+	return nil, nil
+}
+
 var (
 	newCampaign = contract.NewCampaign{
 		Name:    "Campanha X",

@@ -38,6 +38,16 @@ func Test_Create_IDNotNil(t *testing.T) {
 	assert.NotNil(result.ID)
 }
 
+func Test_Create_NewCampaignStatusPending(t *testing.T) {
+	assert := assert.New(t)
+
+	result, err := Create(name, content, contacts)
+
+	assert.Nil(err)
+	assert.NotNil(result)
+	assert.Equal(result.Status, Pending)
+}
+
 func Test_Create_NameValidateMin(t *testing.T) {
 	assert := assert.New(t)
 
