@@ -23,6 +23,11 @@ func (r *repositoryMock) Get() ([]Campaign, error) {
 	return nil, nil
 }
 
+func (r *repositoryMock) Update(Campaign *Campaign) error {
+	// args := r.Called(campaign)
+	return nil
+}
+
 func (r *repositoryMock) GetById(id string) (*Campaign, error) {
 	args := r.Called(id)
 

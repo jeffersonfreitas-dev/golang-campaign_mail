@@ -27,7 +27,7 @@ func (s *serviceMock) GetById(id string) (*contract.CampaignResponse, error) {
 	return nil, nil
 }
 
-func (s *serviceMock) Update(id string) error {
+func (s *serviceMock) Cancel(id string) error {
 	return nil
 }
 
