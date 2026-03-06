@@ -1,11 +1,15 @@
-POST http://localhost:3000/
+POST http://localhost:3000/campaigns
 
 {
-    "name": "mou",
+    "name": "jefferson",
     "content": "change password",
     "emails": ["teste@email.com"]
 }
 
 ###
 
-GET http://localhost:3000/
+GET http://localhost:3000/campaigns/d6lj0sf0e3a0n22fm50g
+
+###
+
+PATCH http://localhost:3000/campaigns/d6lj0sf0e3a0n22fm50g/cancel

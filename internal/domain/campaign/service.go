@@ -3,11 +3,13 @@ package campaign
 import (
 	"campainmail/internal/contract"
 	"campainmail/internal/exceptions"
+	"errors"
 )
 
 type Service interface {
 	Create(newCampaign contract.NewCampaign) (string, error)
 	GetById(id string) (*contract.CampaignResponse, error)
+	Cancel(id string) error
 }
 
 type ServiceImpl struct {
@@ -45,4 +47,22 @@ func (s *ServiceImpl) GetById(id string) (*contract.CampaignResponse, error) {
 		Content: campaign.Content,
 		Status:  campaign.Status,
 	}, nil
+}
+
+func (s *ServiceImpl) Cancel(id string) error {
+
+	campaign, err := s.Repository.GetById(id)
+
+	if err != nil {
+		return exceptions.ErrInternal
+	}
+
+	if campaign.Status != Pending {
+		return errors.New("Campaign status invalid")
+	}
+
+	campaign.Cancel()
+	err = s.Repository.Save(campaign)
+
+	return nil
 }
