@@ -18,14 +18,19 @@ func (r *repositoryMock) Save(campaign *Campaign) error {
 	return args.Error(0)
 }
 
+func (r *repositoryMock) Update(campaign *Campaign) error {
+	args := r.Called(campaign)
+	return args.Error(0)
+}
+
 func (r *repositoryMock) Get() ([]Campaign, error) {
 	// args := r.Called(campaign)
 	return nil, nil
 }
 
-func (r *repositoryMock) Update(Campaign *Campaign) error {
-	// args := r.Called(campaign)
-	return nil
+func (r *repositoryMock) Delete(campaign *Campaign) error {
+	args := r.Called(campaign)
+	return args.Error(0)
 }
 
 func (r *repositoryMock) GetById(id string) (*Campaign, error) {

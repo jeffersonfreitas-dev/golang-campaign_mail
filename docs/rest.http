@@ -1,15 +1,18 @@
 POST http://localhost:3000/campaigns
 
 {
-    "name": "jefferson",
-    "content": "change password",
-    "emails": ["teste@email.com"]
+    "name": "jefferson33",
+    "content": "change password3",
+    "emails": ["teste33@email.com"]
 }
 
 ###
 
-GET http://localhost:3000/campaigns/d6lj0sf0e3a0n22fm50g
+GET http://localhost:3000/campaigns/d6s3hdn0e3a2hv4dk79g
 
 ###
 
 PATCH http://localhost:3000/campaigns/d6lj0sf0e3a0n22fm50g/cancel
+
+###
+DELETE http://localhost:3000/campaigns/d6s3hdn0e3a2hv4dk79g

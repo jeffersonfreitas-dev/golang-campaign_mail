@@ -11,6 +11,11 @@ type CampaignRepository struct {
 }
 
 func (c *CampaignRepository) Save(campaign *campaign.Campaign) error {
+	tx := c.Db.Create(campaign)
+	return tx.Error
+}
+
+func (c *CampaignRepository) Update(campaign *campaign.Campaign) error {
 	tx := c.Db.Save(campaign)
 	return tx.Error
 }
@@ -27,6 +32,7 @@ func (c *CampaignRepository) GetById(id string) (*campaign.Campaign, error) {
 	return &campaign, tx.Error
 }
 
-func (c *CampaignRepository) Update(id *campaign.Campaign) error {
-	return nil
+func (c *CampaignRepository) Delete(campaign *campaign.Campaign) error {
+	tx := c.Db.Delete(campaign)
+	return tx.Error
 }

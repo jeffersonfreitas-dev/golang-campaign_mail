@@ -10,6 +10,7 @@ type Service interface {
 	Create(newCampaign contract.NewCampaign) (string, error)
 	GetById(id string) (*contract.CampaignResponse, error)
 	Cancel(id string) error
+	Delete(id string) error
 }
 
 type ServiceImpl struct {
@@ -62,7 +63,23 @@ func (s *ServiceImpl) Cancel(id string) error {
 	}
 
 	campaign.Cancel()
-	err = s.Repository.Save(campaign)
+	err = s.Repository.Update(campaign)
 
+	return nil
+}
+
+func (s *ServiceImpl) Delete(id string) error {
+	campaign, err := s.Repository.GetById(id)
+
+	if err != nil {
+		return exceptions.ErrInternal
+	}
+
+	if campaign.Status != Pending {
+		return errors.New("Campaign may not be deleted because its status is pendidng")
+	}
+
+	campaign.Delete()
+	err = s.Repository.Delete(campaign)
 	return nil
 }

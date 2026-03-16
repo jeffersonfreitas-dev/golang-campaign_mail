@@ -31,6 +31,10 @@ func (s *serviceMock) Cancel(id string) error {
 	return nil
 }
 
+func (s *serviceMock) Delete(id string) error {
+	return nil
+}
+
 func Test_CampaignsPost_shouldSaveNewCampaign(t *testing.T) {
 	assert := assert.New(t)
 	service := new(serviceMock)
