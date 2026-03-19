@@ -39,7 +39,7 @@ func (s *ServiceImpl) GetById(id string) (*contract.CampaignResponse, error) {
 	campaign, err := s.Repository.GetById(id)
 
 	if err != nil {
-		return nil, err
+		return nil, exceptions.ProcessErrorToReturn(err)
 	}
 
 	return &contract.CampaignResponse{
@@ -56,7 +56,7 @@ func (s *ServiceImpl) Cancel(id string) error {
 	campaign, err := s.Repository.GetById(id)
 
 	if err != nil {
-		return exceptions.ErrInternal
+		return exceptions.ProcessErrorToReturn(err)
 	}
 
 	if campaign.Status != Pending {
@@ -73,7 +73,7 @@ func (s *ServiceImpl) Delete(id string) error {
 	campaign, err := s.Repository.GetById(id)
 
 	if err != nil {
-		return exceptions.ErrInternal
+		return exceptions.ProcessErrorToReturn(err)
 	}
 
 	if campaign.Status != Pending {
