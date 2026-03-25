@@ -3,6 +3,7 @@ package endpoints
 import (
 	"bytes"
 	"campainmail/internal/contract"
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -38,7 +39,7 @@ func (s *serviceMock) Delete(id string) error {
 func Test_CampaignsPost_shouldSaveNewCampaign(t *testing.T) {
 	assert := assert.New(t)
 	service := new(serviceMock)
-
+	createdByExpected := "teste@email.com"
 	body := contract.NewCampaign{
 		Name:    "teste",
 		Content: "Hello everybody",
@@ -47,7 +48,9 @@ func Test_CampaignsPost_shouldSaveNewCampaign(t *testing.T) {
 
 	handler := Handler{CampaignService: service}
 	service.On("Create", mock.MatchedBy(func(request contract.NewCampaign) bool {
-		if request.Name == body.Name && request.Content == body.Content {
+		if request.Name == body.Name &&
+			request.Content == body.Content &&
+			request.CreatedBy == createdByExpected {
 			return true
 		} else {
 			return false
@@ -58,6 +61,8 @@ func Test_CampaignsPost_shouldSaveNewCampaign(t *testing.T) {
 	json.NewEncoder(&buf).Encode(body)
 
 	req, _ := http.NewRequest("POST", "/", &buf)
+	ctx := context.WithValue(req.Context(), "email", createdByExpected)
+	req = req.WithContext(ctx)
 	rr := httptest.NewRecorder()
 
 	_, status, err := handler.CampaignPost(rr, req)

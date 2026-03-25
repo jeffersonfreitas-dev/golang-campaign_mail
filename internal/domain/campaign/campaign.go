@@ -25,6 +25,7 @@ type Campaign struct {
 	ID        string    `validate:"required" gorm:"size:50"`
 	Name      string    `validate:"min=5,max=25" gorm:"size:100"`
 	CreatedOn time.Time `validate:"required"`
+	CreatedBy string    `gorm:"size:50"`
 	Content   string    `validate:"min=5,max=1024" gorm:"size:1024"`
 	Contacts  []Contact `validate:"min=1,dive" gorm:"foreignKey:CampaignId;constraint:OnDelete:CASCADE;"`
 	Status    string    `gorm:"size:15"`
@@ -38,7 +39,7 @@ func (c *Campaign) Delete() {
 	c.Status = Deleted
 }
 
-func Create(name string, content string, emails []string) (*Campaign, error) {
+func Create(name string, content string, emails []string, createdBy string) (*Campaign, error) {
 	contacts := make([]Contact, len(emails))
 
 	for i, value := range emails {
@@ -53,6 +54,7 @@ func Create(name string, content string, emails []string) (*Campaign, error) {
 		Content:   content,
 		Contacts:  contacts,
 		Status:    Pending,
+		CreatedBy: createdBy,
 	}
 
 	err := exceptions.ValidateStruct(campaign)

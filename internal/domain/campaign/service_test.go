@@ -45,9 +45,10 @@ func (r *repositoryMock) GetById(id string) (*Campaign, error) {
 
 var (
 	newCampaign = contract.NewCampaign{
-		Name:    "Campanha X",
-		Content: "Body mail",
-		Emails:  []string{"teste@email.com", "email@teste.com"},
+		Name:      "Campanha X",
+		Content:   "Body mail",
+		Emails:    []string{"teste@email.com", "email@teste.com"},
+		CreatedBy: "teste@email.com",
 	}
 	service = ServiceImpl{}
 )
@@ -91,7 +92,7 @@ func Test_Create_SaveCampaign(t *testing.T) {
 
 func Test_GetById_ReturnCampaign(t *testing.T) {
 	assert := assert.New(t)
-	camp, _ := Create(newCampaign.Name, newCampaign.Content, newCampaign.Emails)
+	camp, _ := Create(newCampaign.Name, newCampaign.Content, newCampaign.Emails, newCampaign.CreatedBy)
 	repositoryMock := new(repositoryMock)
 	repositoryMock.On("GetById", mock.MatchedBy(func(id string) bool {
 		return id == camp.ID
@@ -102,11 +103,12 @@ func Test_GetById_ReturnCampaign(t *testing.T) {
 	assert.Equal(camp.ID, campaign.ID)
 	assert.Equal(camp.Name, campaign.Name)
 	assert.Equal(camp.Content, campaign.Content)
+	assert.Equal(camp.CreatedBy, campaign.CreatedBy)
 }
 
 func Test_GetById_ReturnErrorWhenWrong(t *testing.T) {
 	assert := assert.New(t)
-	camp, _ := Create(newCampaign.Name, newCampaign.Content, newCampaign.Emails)
+	camp, _ := Create(newCampaign.Name, newCampaign.Content, newCampaign.Emails, newCampaign.CreatedBy)
 	repositoryMock := new(repositoryMock)
 	repositoryMock.On("GetById", mock.Anything).Return(nil, errors.New("error"))
 	service.Repository = repositoryMock
